@@ -48,8 +48,8 @@ export default function TodoListForm() {
               setTodoText(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                if (todoText) {
+              if (todoText) {
+                if (e.key === "Enter") {
                   dispatch(
                     addNewTodo({
                       text: todoText,
