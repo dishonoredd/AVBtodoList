@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
-import { Todo } from "../types/Todo";
+import {
+  addNewTodo,
+  modeSlice,
+  useAppDispatch,
+  useAppSelector,
+} from "../store";
 import Todos from "./todos";
-import { modeSlice, useAppDispatch, useAppSelector } from "../store";
+import CompletedTodos from "./completted-todos";
 
 export default function TodoListForm() {
   const [todoText, setTodoText] = useState("");
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [tab, setTab] = useState(1);
   const [currentDate, setCurrentDate] = useState("");
   const darkmode = useAppSelector((state) => state.modeSlice.mode);
@@ -21,23 +25,7 @@ export default function TodoListForm() {
     setCurrentDate(fullDate);
   };
 
-  const addTodo = () => {
-    const result = [...todos];
-    if (!todoText) return;
-    result.push({
-      text: todoText,
-      id: crypto.randomUUID(),
-      completed: false,
-    });
-    getCurrentDate();
-    setTodos(result);
-    setTodoText("");
-  };
-
-  const completedTodos = todos.filter((t) => t.completed === true);
-  const uncompletedTodos = todos.filter((t) => t.completed === false);
-
-  const swiTchMode = () => {
+  const switchMode = () => {
     dispatch(modeSlice.actions.changeMode());
   };
 
@@ -61,12 +49,31 @@ export default function TodoListForm() {
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                addTodo();
+                if (todoText) {
+                  dispatch(
+                    addNewTodo({
+                      text: todoText,
+                      id: crypto.randomUUID(),
+                    })
+                  );
+                  getCurrentDate();
+                  setTodoText("");
+                }
               }
             }}
           />
           <button
-            onClick={() => addTodo()}
+            onClick={() => {
+              todoText &&
+                dispatch(
+                  addNewTodo({
+                    text: todoText,
+                    id: crypto.randomUUID(),
+                  })
+                );
+              getCurrentDate();
+              setTodoText("");
+            }}
             className={` border-2 border-transparent  px-7 py-3 rounded-tr-lg rounded-br-lg 
             cursor-pointer hover:translate-x-1 duration-150 ${
               darkmode
@@ -112,7 +119,7 @@ export default function TodoListForm() {
           </button>
           <button
             onClick={() => {
-              swiTchMode();
+              switchMode();
             }}
             className={` px-4 py-3.5  rounded-lg cursor-pointer ${
               darkmode
@@ -125,24 +132,8 @@ export default function TodoListForm() {
         </div>
       </div>
 
-      {tab === 1 && (
-        <Todos
-          todos={uncompletedTodos}
-          setTodos={setTodos}
-          todoType="uncompleted"
-          allTodos={todos}
-          curDate={currentDate}
-        />
-      )}
-      {tab === 2 && (
-        <Todos
-          todos={completedTodos}
-          setTodos={setTodos}
-          todoType="completed"
-          allTodos={todos}
-          curDate={currentDate}
-        />
-      )}
+      {tab === 1 && <Todos curDate={currentDate} />}
+      {tab === 2 && <CompletedTodos curDate={currentDate} />}
     </div>
   );
 }
