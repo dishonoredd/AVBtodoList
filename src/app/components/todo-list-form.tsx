@@ -31,7 +31,7 @@ export default function TodoListForm() {
 
   return (
     <div
-      className={`p-20 w-2/3 min-h-180 rounded-2xl flex flex-col ${
+      className={`p-20 w-2/3 min-h-180 rounded-2xl flex flex-col duration-200 ${
         darkmode ? "bg-gray-800" : "bg-gray-50"
       }`}
     >
@@ -40,7 +40,7 @@ export default function TodoListForm() {
           <input
             type="text"
             placeholder="todo text"
-            className={`border-2  rounded-tl-lg rounded-bl-lg py-3 px-10 focus:outline-none ${
+            className={`border-2 duration-200 rounded-tl-lg rounded-bl-lg py-3 px-10 focus:outline-none ${
               darkmode ? "border-purple-700 text-white" : "border-blue-500"
             }`}
             value={todoText}
@@ -74,7 +74,7 @@ export default function TodoListForm() {
               getCurrentDate();
               setTodoText("");
             }}
-            className={` border-2 border-transparent  px-7 py-3 rounded-tr-lg rounded-br-lg 
+            className={`duration-200 border-2 border-transparent  px-7 py-3 rounded-tr-lg rounded-br-lg 
             cursor-pointer hover:translate-x-1 duration-150 ${
               darkmode
                 ? "bg-purple-700  text-gray-300"
@@ -89,7 +89,7 @@ export default function TodoListForm() {
             onClick={() => {
               setTab(1);
             }}
-            className={`border-2 px-7 py-3.5 rounded-lg cursor-pointer ${
+            className={`duration-200 border-2 px-7 py-3.5 rounded-lg cursor-pointer ${
               darkmode ? "border-purple-700 text-gray-300" : "border-blue-500"
             } ${
               tab === 1
@@ -105,7 +105,7 @@ export default function TodoListForm() {
             onClick={() => {
               setTab(2);
             }}
-            className={`border-2 px-7 py-3.5 rounded-lg cursor-pointer ${
+            className={`duration-200 border-2 px-7 py-3.5 rounded-lg cursor-pointer ${
               darkmode ? "border-purple-700 text-gray-300" : "border-blue-500"
             } ${
               tab === 2
@@ -121,7 +121,7 @@ export default function TodoListForm() {
             onClick={() => {
               switchMode();
             }}
-            className={` px-4 py-3.5  rounded-lg cursor-pointer ${
+            className={`duration-200 px-4 py-3.5  rounded-lg cursor-pointer ${
               darkmode
                 ? "bg-purple-700 text-gray-300"
                 : "bg-blue-500 text-white"
