@@ -6,6 +6,7 @@ type TodosProps = {
   setTodos: (todos: Todo[]) => void;
   allTodos: Todo[];
   todoType: "completed" | "uncompleted";
+  curDate: string;
 };
 
 export default function Todos(props: TodosProps) {
@@ -26,10 +27,13 @@ export default function Todos(props: TodosProps) {
           className={`p-5 rounded-lg flex items-center justify-between flex-wrap min-h-fit w-full 
           break-all shadow-md ${darkmode ? "bg-gray-700" : "bg-white"}`}
         >
-          <p className={`max-w-[85%] ${darkmode && "text-gray-300"}`}>
+          <p className={`max-w-[75%] ${darkmode && "text-gray-300"}`}>
             {todo.text}
           </p>
+
           <div className="flex items-center right-0 gap-3">
+            {" "}
+            <p className={`${darkmode && "text-gray-300"}`}>{props.curDate}</p>
             <button
               onClick={() => {
                 toggleTodo(todo.id);

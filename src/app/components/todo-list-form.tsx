@@ -8,16 +8,18 @@ export default function TodoListForm() {
   const [todoText, setTodoText] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [tab, setTab] = useState(1);
+  const [currentDate, setCurrentDate] = useState("");
   const darkmode = useAppSelector((state) => state.modeSlice.mode);
   const dispatch = useAppDispatch();
 
-  const date = new Date();
-  const day = date.getDate().toString().padStart(2, "0"); // Добавляем ведущий ноль, если число < 10
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Месяцы начинаются с 0
-  const year = date.getFullYear();
-
-  const formattedDate = `${day} ${month} ${year}`;
-  console.log(formattedDate); // Пример: "20 05 2024
+  const getCurrentDate = () => {
+    const date = new Date();
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    const fullDate = `${day}.${month}.${year}`;
+    setCurrentDate(fullDate);
+  };
 
   const addTodo = () => {
     const result = [...todos];
@@ -27,6 +29,7 @@ export default function TodoListForm() {
       id: crypto.randomUUID(),
       completed: false,
     });
+    getCurrentDate();
     setTodos(result);
     setTodoText("");
   };
@@ -128,6 +131,7 @@ export default function TodoListForm() {
           setTodos={setTodos}
           todoType="uncompleted"
           allTodos={todos}
+          curDate={currentDate}
         />
       )}
       {tab === 2 && (
@@ -136,6 +140,7 @@ export default function TodoListForm() {
           setTodos={setTodos}
           todoType="completed"
           allTodos={todos}
+          curDate={currentDate}
         />
       )}
     </div>
